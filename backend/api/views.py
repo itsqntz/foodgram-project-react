@@ -1,24 +1,24 @@
-from django.contrib.auth import get_user_model
-from django.db.models import Sum
 from django.http.response import HttpResponse
+from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
+from django.db.models import Sum
 from djoser.views import UserViewSet
-from recipes.models import (Favorite, Ingredient, Recipe, RecipeIngredient,
-                            ShoppingCart, Tag)
-from rest_framework import status
-from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
-from users.models import Subscribe
+from rest_framework import status
+from rest_framework.decorators import action
 
-from .filters import AuthorAndTagFilter, IngredientSearchFilter
-from .paginations import LimitPageNumberPagination
-from .permissions import IsAuthorOrReadOnly
-from .serializers import (CustomUserCreateSerializer, CustomUserSerializer,
-                          FavoriteSerializer, IngredientSerializer,
-                          RecipeReadSerializer, RecipeSerializer,
-                          ShoppingCartSerializer, SubscribeSerializer,
-                          TagSerializer)
+from api.filters import AuthorAndTagFilter, IngredientSearchFilter
+from api.paginations import LimitPageNumberPagination
+from api.permissions import IsAuthorOrReadOnly
+from api.serializers import (CustomUserCreateSerializer, CustomUserSerializer,
+                             FavoriteSerializer, IngredientSerializer,
+                             RecipeReadSerializer, RecipeSerializer,
+                             ShoppingCartSerializer, SubscribeSerializer,
+                             TagSerializer)
+from recipes.models import (Favorite, Ingredient, Recipe, RecipeIngredient,
+                            ShoppingCart, Tag)
+from users.models import Subscribe
 
 User = get_user_model()
 
@@ -145,7 +145,7 @@ class RecipeViewSet(ModelViewSet):
         ).order_by('ingredient__name').values(
             'ingredient__name', 'ingredient__measurement_unit'
         ).annotate(ingredient_value=Sum('amount'))
-        if len(ingredients) == 0:
+        if not ingredients.exists():
             return Response({'error': 'Список покупок пуст'
                              }, status=status.HTTP_400_BAD_REQUEST)
         return self.create_shopping_cart(ingredients)
