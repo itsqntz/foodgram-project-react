@@ -45,8 +45,6 @@ sudo docker-compose up -d --build
 Для корректной работы бекенда необходимо выполнить следующие операции:
 - Выполнить миграции для приложений users и recipes:
 ```
-sudo docker-compose exec backend python manage.py makemigrations users
-sudo docker-compose exec backend python manage.py makemigrations recipes
 sudo docker-compose exec backend python manage.py migrate
 ```
 - Собрать необходимые статические файлы:
@@ -63,13 +61,13 @@ sudo docker-compose exec backend python manage.py createsuperuser
 ```
 Проект будет доступен по открытому IP вашего сервера.
 
-### Готовый проект можно будет посмотреть по [адресу](http://51.250.109.198/recipes).
+### Готовый проект можно посмотреть по [адресу](http://51.250.109.198/recipes).
 
 - Данные админки:
 ```
 Логин: admin
 Email: admin@ya.ru
-Пароль: admin0709
+Пароль: Admin0709
 ```
 
 [![Python](https://img.shields.io/badge/-Python-464646?style=flat-square&logo=Python)](https://www.python.org/) [![Django](https://img.shields.io/badge/-Django-464646?style=flat-square&logo=Django)](https://www.djangoproject.com/)
